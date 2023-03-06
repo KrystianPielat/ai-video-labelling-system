@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+  labels:
+    app: gateway
+    type: http
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+      type: http
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: gateway
+        type: http
+    spec:
+      containers:
+        - name: gateway
+          image: krystianpielat/vp-gateway
+          envFrom:
+            - configMapRef:
+                name: gateway-configmap
+            - secretRef:
+                name: gateway-secret
