@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth
+  labels:
+    app: auth
+    type: http
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth
+      type: http
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: auth
+        type: http
+    spec:
+      containers:
+        - name: auth
+          image: krystianpielat/vp-auth
+          envFrom:
+            - configMapRef:
+                name: auth-configmap
+            - secretRef:
+                name: auth-secret

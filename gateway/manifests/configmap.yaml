@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: gateway-configmap
 data:
-  PLACEHOLDER: nothing
+  AUTH_SVC_ADDRESS: "auth:8080"

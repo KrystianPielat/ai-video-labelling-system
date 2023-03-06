@@ -6,4 +6,3 @@ MarkupSafe==2.1.2
 PyJWT==2.6.0
 Werkzeug==2.2.3
 psycopg2-binary
-requests
