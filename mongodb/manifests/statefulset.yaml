@@ -8,10 +8,12 @@ spec:
   selector:
     matchLabels:
       app: mongodb
+      type: db
   template:
     metadata:
       labels:
         app: mongodb
+        type: db
         selector: mongodb
     spec:
       containers:
