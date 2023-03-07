@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: gateway-configmap
 data:
-  AUTH_SVC_ADDRESS: "auth"
+  AUTH_SVC_ADDRESS: "auth:8080"
   PYTHONUNBUFFERED: "1"

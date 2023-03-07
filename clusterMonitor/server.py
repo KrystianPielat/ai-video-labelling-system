@@ -1,14 +1,19 @@
 from flask import Flask, request
-from db_logger import logger
+from logs import logger
+import logging
 
 server = Flask(__name__)
+log = logging.getLogger("werkzeug")
+log.disabled = True
 
 
 @server.route("/log", methods=["POST"])
-def log():
-    print(request.get_data())
+def log_endpoint():
+    logger.log(
+        request.form.get("level"), request.form.get("source"), request.form.get("log")
+    )
     return "OK", 200
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=80, debug=True)
+    server.run(host="0.0.0.0", port=8080, debug=False)

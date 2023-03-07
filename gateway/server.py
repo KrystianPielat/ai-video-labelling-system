@@ -5,15 +5,15 @@ import requests
 server = Flask(__name__)
 
 
+def log(level, log):
+    requests.post(
+        "http://monitor:8080/log",
+        data={"source": "gateway", "log": log, "level": level},
+    )
+
+
 @server.route("/")
 def home():
-    requests.post(
-        "http://monitor/log",
-        data={
-            "source": "gateway",
-            "log": "logggg",
-        },
-    )
     return "Hi", 200
 
 
@@ -23,8 +23,9 @@ def login_endpoint():
 
     if not err:
         return token
+    log("error", "Login error: " + str(err))
     return err
 
 
 if __name__ == "__main__":
-    server.run(host="0.0.0.0", port=80, debug=True)
+    server.run(host="0.0.0.0", port=8080, debug=True)
