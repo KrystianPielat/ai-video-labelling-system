@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: monitor-configmap
 data:
-  PSQL_HOST: postgres 
+  PSQL_HOST: postgres
   PSQL_USER: auth_user
   PSQL_DB: auth
+  PYTHONUNBUFFERED: "1"

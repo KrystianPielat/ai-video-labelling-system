@@ -6,3 +6,5 @@ data:
   PSQL_HOST: postgres 
   PSQL_USER: auth_user
   PSQL_DB: auth
+  PYTHONUNBUFFERED: "1"
+
