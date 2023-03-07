@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitor 
+  labels:
+    app: monitor 
+    type: http 
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitor 
+      type: http 
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: monitor 
+        type: http 
+    spec:
+      containers:
+        - name: monitor 
+          image: krystianpielat/vp-cluster-monitor
+          envFrom:
+            - configMapRef:
+                name: monitor-configmap
+            - secretRef:
+                name: monitor-secret
