@@ -7,3 +7,5 @@ PyJWT==2.6.0
 Werkzeug==2.2.3
 psycopg2-binary
 requests
+pika
+Flask-PyMongo

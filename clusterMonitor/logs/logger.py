@@ -25,6 +25,8 @@ class CustomFormatter(logging.Formatter):
         return formatter.format(record)
 
 
+logging.basicConfig(filename="cluster_logs", filemode="a")
+
 logger = logging.getLogger("clusterMonitor")
 logger.setLevel(logging.DEBUG)
 ch = logging.StreamHandler()
@@ -33,7 +35,12 @@ ch.setFormatter(CustomFormatter())
 logger.addHandler(ch)
 
 
-def log(level, source, msg):
-    return getattr(logger, level.lower())(
-        f"{CustomFormatter.blue}[{source}]{CustomFormatter.reset}:  {msg}"
-    )
+def log(level, source, msg, filename=None, line=None):
+    if filename and line:
+        msg = (
+            f"{CustomFormatter.blue}[{source}][{filename}:{line}]"
+            + f"{CustomFormatter.reset}:  {msg}"
+        )
+    else:
+        msg = f"{CustomFormatter.blue}[{source}]{CustomFormatter.reset}:  {msg}"
+    return getattr(logger, level.lower())(msg)
