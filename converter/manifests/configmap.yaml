@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: converter-configmap
+data:
+  UNLABELED_QUEUE: "unlabeled"
+  LABELED_QUEUE: "labeled"

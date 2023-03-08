@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: converter
+  labels:
+    app: converter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: converter
+      type: consumer
+  strategy: 
+    type: RollingUpdate 
+    rollingUpdate:
+      maxSurge: 8
+  template:
+    metadata:
+      labels:
+        app: converter
+        type: consumer
+    spec:
+      containers:
+        - name: converter
+          image: krystianpielat/vp-converter
+          envFrom:
+            - configMapRef:
+                name: converter-configmap
+            - secretRef:
+                name: converter-secret
