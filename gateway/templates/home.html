@@ -6,16 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
     <title>Document</title>
 </head>
 
 <body>
 
+    <h1>File Upload</h1>
+
     <form action="upload" method="POST" enctype="multipart/form-data">
         <input type="file" name="file"/>
-        <input type="submit"/>
+        <input type="submit" value="Upload"/>
     </form>
-    <h1>Ready to download</h1>
+
     {% if labeled %}
     <table>
         <thead>
@@ -53,6 +57,6 @@
     </table>
 
     {% endif %}
-</body>
 
+</body>
 </html>
