@@ -20,7 +20,10 @@ def log(level, log, loc=False):
     if loc:
         data["filename"] = get_filename()
         data["line"] = get_linenumber()
-    requests.post(
-        "http://monitor:8080/log",
-        data=data,
-    )
+    try:
+        requests.post(
+            "http://monitor:8080/log",
+            data=data,
+        )
+    except requests.exceptions.ConnectionError:
+        print(log)

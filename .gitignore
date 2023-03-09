@@ -2,3 +2,5 @@
 *_venv*
 
 cluster_logs
+
+.vscode/

@@ -6,11 +6,6 @@ import psycopg2
 server = Flask(__name__)
 
 
-@server.route("/")
-def home():
-    return "Hi", 200
-
-
 @server.route("/login", methods=["POST"])
 def login():
     auth = request.authorization
@@ -25,10 +20,8 @@ def login():
         port="5432",
     )
 
-    # Open a cursor to perform database operations
     cur = conn.cursor()
 
-    # Check db for username and password
     cur.execute("SELECT email, password FROM users WHERE email=%s", (auth.username,))
     try:
         user_row = cur.fetchone()
@@ -45,21 +38,8 @@ def login():
     return "Invalid credentials", 401
 
 
-def createJWT(username, secret, authz):
-    return jwt.encode(
-        {
-            "username": username,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
-            "iat": datetime.datetime.utcnow(),
-            "admin": authz,
-        },
-        secret,
-        algorithm="HS256",
-    )
-
-
-@server.route("/validate", methods=["POST"])
-def validate():
+@server.route("/decode", methods=["POST"])
+def decode():
     encoded_jwt = request.headers["Authorization"]
 
     if not encoded_jwt:
@@ -71,10 +51,42 @@ def validate():
         decoded = jwt.decode(
             encoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"]
         )
+
+        return decoded, 200
     except Exception as ex:
         print(ex)
-        return "Not authorized", 403
-    return decoded, 200
+    return "Not authorized", 403
+
+
+@server.route("/verify", methods=["POST"])
+def verify():
+    encoded_jwt = request.headers["Authorization"] or request.args.get("token")
+
+    if not encoded_jwt:
+        return "Missing credentials", 401
+
+    encoded_jwt = encoded_jwt.split(" ")[1]
+
+    try:
+        jwt.decode(encoded_jwt, os.environ.get("JWT_SECRET"), algorithms=["HS256"])
+
+        return "Authorized", 200
+    except Exception as ex:
+        print(ex)
+    return "Not authorized", 403
+
+
+def createJWT(username, secret, authz):
+    return jwt.encode(
+        {
+            "username": username,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1),
+            "iat": datetime.datetime.utcnow(),
+            "admin": authz,
+        },
+        secret,
+        algorithm="HS256",
+    )
 
 
 if __name__ == "__main__":

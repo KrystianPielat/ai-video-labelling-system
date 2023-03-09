@@ -166,7 +166,8 @@ def label_video(file):
 def convert(message, fs_unlabeled, fs_labeled, channel):
     try:
         tf = tempfile.NamedTemporaryFile(dir="./tmp", suffix=".mp4")
-        out = fs_unlabeled.get(ObjectId(message["unlabeled_fid"]))
+        unlabeled_vid_id = ObjectId(message["unlabeled_fid"])
+        out = fs_unlabeled.get(unlabeled_vid_id)
         tf.write(out.read())
 
         output_file = label_video(tf)
@@ -175,6 +176,8 @@ def convert(message, fs_unlabeled, fs_labeled, channel):
 
         output_file.close()
         tf.close()
+
+        fs_unlabeled.delete(unlabeled_vid_id)
 
     except Exception as err:
         log(

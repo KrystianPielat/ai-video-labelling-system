@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form action="upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit"/>
+    </form>
+    <h1>Ready to download</h1>
+    {% if labeled %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg in labeled %}
+            <tr>
+                <td>{{ msg.filename}}</td>
+                <td><button><a href="/download?fid={{msg.labeled_fid}}" target="_blank">DOWNLOAD</a></button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    {% if unlabeled %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unlabeled_msg in unlabeled %}
+            <tr>
+                <td>{{ unlabeled_msg.filename}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+</body>
+
+</html>
