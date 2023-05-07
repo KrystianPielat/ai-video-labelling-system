@@ -62,13 +62,13 @@ def home():
 
     # Display page
     if access.verify(request, session):
-        labeled = util.filter_rabit(
-            "labeled", username=access.decode(request, session)[0]["username"]
-        )
-        unlabeled = util.filter_rabit(
-            "unlabeled", username=access.decode(request, session)[0]["username"]
-        )
-        return render_template("home.html", labeled=labeled, unlabeled=unlabeled)
+        # labeled = util.filter_rabit(
+        #     "labeled", username=access.decode(request, session)[0]["username"]
+        # )
+        # unlabeled = util.filter_rabit(
+        #     "unlabeled", username=access.decode(request, session)[0]["username"]
+        # )
+        return render_template("home.html")#, labeled=labeled, unlabeled=unlabeled)
     return render_template("login.html", form=LoginForm())
 
 

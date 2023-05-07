@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-api
+  labels:
+    app: rabbitmq-api
+    type: http
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-api
+      type: http
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-api
+        type: http
+    spec:
+      containers:
+        - name: rabbitmq-api
+          image: krystianpielat/vp-rabbitmq-api
+          envFrom:
+            - configMapRef:
+                name: rabbitmq-configmap
+            - secretRef:
+                name: rabbitmq-secret

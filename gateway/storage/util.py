@@ -23,7 +23,7 @@ def rabbit_publish(queue, message):
     try:
         channel.basic_publish(
             exchange="",
-            routing_key="unlabeled",
+            routing_key=queue,
             body=json.dumps(message),
             properties=pika.BasicProperties(
                 delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
